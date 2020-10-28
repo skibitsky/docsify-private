@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  docsify:
+    build:
+      context: .
+      dockerfile: docsify.Dockerfile
+    image: docsify
+    container_name: docsify
+    restart: unless-stopped
