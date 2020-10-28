@@ -8,3 +8,27 @@ services:
     image: docsify
     container_name: docsify
     restart: unless-stopped
+    networks: 
+        - docsify-network
+
+  webserver:
+    build:
+        context: .
+        dockerfile: nginx.Dockerfile
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+    #   - web-root:/var/www/html
+      - ./nginx-conf:/etc/nginx/conf.d
+    #   - certbot-etc:/etc/letsencrypt
+    #   - certbot-var:/var/lib/letsencrypt
+    depends_on:
+      - docsify
+    networks:
+      - docsify-network
+
+networks: 
+    docsify-network:
+        driver: bridge
